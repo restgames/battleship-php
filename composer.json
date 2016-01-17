@@ -1,9 +1,13 @@
 {
     "name": "restgames/battleship-php",
+    "description": "PHP helper components for Battleship game",
+    "homepage": "https://github.com/restgames/battleship-php",
+    "license": "MIT",
     "authors": [
         {
             "name": "Carlos Buenosvinos",
-            "email": "carlos.buenosvinos@gmail.com"
+            "email": "carlos.buenosvinos@gmail.com",
+            "homepage": "http://carlosbuenosvinos.com"
         }
     ],
     "autoload": {
