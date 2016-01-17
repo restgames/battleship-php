@@ -106,7 +106,7 @@ class Grid
      * @param Ship $ship
      * @param Hole $hole
      * @param Position $position
-     * @return $this
+     * @return Grid
      * @throws ShipAlreadyPlacedException
      */
     public function placeShip(Ship $ship, Hole $hole, Position $position)
@@ -131,21 +131,6 @@ class Grid
         }
 
         return $grid;
-    }
-
-    /**
-     * @return string
-     */
-    public function render()
-    {
-        $out = '';
-        for ($letter = 0; $letter < count($this->grid); $letter++) {
-            for ($number = 0; $number < count($this->grid[$letter]); $number++) {
-                $out .= $this->grid[$letter][$number];
-            }
-        }
-
-        return $out;
     }
 
     private static function fromGrid(Grid $grid)
@@ -175,6 +160,22 @@ class Grid
         return $allShipsAreSunk;
     }
 
+    private function isShipSunk($ship)
+    {
+        $size = $ship->size();
+
+        $count = 0;
+        foreach($this->grid as $y => $letter) {
+            foreach($letter as $x => $number) {
+                if ($this->grid[$y][$x] === -$ship->id()) {
+                    $count++;
+                }
+            }
+        }
+
+        return $count === $size;
+    }
+
     /**
      * @param Hole $hole
      * @return int
@@ -202,19 +203,18 @@ class Grid
         return self::WATER;
     }
 
-    private function isShipSunk($ship)
+    /**
+     * @return string
+     */
+    public function render()
     {
-        $size = $ship->size();
-
-        $count = 0;
-        foreach($this->grid as $y => $letter) {
-            foreach($letter as $x => $number) {
-                if ($this->grid[$y][$x] === -$ship->id()) {
-                    $count++;
-                }
+        $out = '';
+        for ($letter = 0; $letter < count($this->grid); $letter++) {
+            for ($number = 0; $number < count($this->grid[$letter]); $number++) {
+                $out .= $this->grid[$letter][$number];
             }
         }
 
-        return $count === $size;
+        return $out;
     }
 }

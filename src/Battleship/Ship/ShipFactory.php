@@ -22,9 +22,8 @@ class ShipFactory
             case 5:
                 return new Destroyer();
                 break;
-            default:
-                throw new \Exception('Invalid Ship id');
-                break;
         }
+
+        throw new \Exception('Invalid Ship id');
     }
 }
