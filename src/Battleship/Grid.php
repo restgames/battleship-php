@@ -8,7 +8,8 @@ use Battleship\Ship\ShipFactory;
 class Grid
 {
     const NUMBER_OF_SHIPS = 5;
-    const NUMBER_OF_ROWS = 8;
+    const NUMBER_OF_ROWS = 10;
+    const NUMBER_OF_COLUMNS = 10;
 
     const WATER = 0;
     const HIT = 1;
@@ -32,10 +33,26 @@ class Grid
     {
         $this->grid = [];
         for ($i = 0; $i < self::NUMBER_OF_ROWS; $i++) {
-            for ($j = 0; $j < self::NUMBER_OF_ROWS; $j++) {
-                $this->grid[$j][$i] = Grid::WATER;
+            for ($j = 0; $j < self::NUMBER_OF_COLUMNS; $j++) {
+                $this->grid[$j][$i] = static::WATER;
             }
         }
+    }
+
+    /**
+     * @return array
+     */
+    public static function letters()
+    {
+        return range('A', 'J');
+    }
+
+    /**
+     * @return array
+     */
+    public static function numbers()
+    {
+        return range(1, 10);
     }
 
     /**
@@ -45,7 +62,7 @@ class Grid
      */
     public static function fromString($string)
     {
-        $letters = str_split($string, self::NUMBER_OF_ROWS);
+        $letters = str_split($string, static::NUMBER_OF_ROWS);
 
         $grid = new self();
         foreach ($letters as $y => $letter) {
@@ -57,7 +74,7 @@ class Grid
                 }
 
                 $ship = ShipFactory::build($number);
-                $direction = (isset($numbers[$x + 1]) && $numbers[$x + 1] === $numbers[$x]) ? Position::HORIZONTAL() : Position::VERTICAL();
+                $direction = (isset($numbers[$x + 1]) && $numbers[$x + 1] === $numbers[$x]) ? Position::fromHorizontal() : Position::fromVertical();
 
                 try {
                     $grid = $grid->placeShip(
@@ -96,21 +113,21 @@ class Grid
     {
         $grid = static::fromGrid($this);
 
-        $shipId = get_class($ship);
+        $shipId = $ship->id();
         if (isset($grid->ships[$shipId])) {
             throw new ShipAlreadyPlacedException();
         }
 
         for ($i = 0; $i < $ship->size(); $i++) {
-            $x = $grid->letterToNumber($hole->letter()) + ($position->equals(Position::VERTICAL()) ? $i : 0) - 1;
-            $y = $hole->number() + ($position->equals(Position::HORIZONTAL()) ? $i : 0) - 1;
+            $x = Hole::letterToNumber($hole->letter()) + ($position->equals(Position::fromVertical()) ? $i : 0) - 1;
+            $y = $hole->number() + ($position->equals(Position::fromHorizontal()) ? $i : 0) - 1;
 
             if ($grid->grid[$x][$y] > 0) {
                 throw new \InvalidArgumentException('Ship overlaps with another one, please choose another space.');
             }
 
             $grid->grid[$x][$y] = $ship->id();
-            $grid->ships[$shipId][$x.'-'.$y] = 0;
+            $grid->ships[$shipId] = $ship;
         }
 
         return $grid;
@@ -150,10 +167,17 @@ class Grid
 
     public function areAllShipsSunk()
     {
-        return false;
+        $allShipsAreSunk = true;
+        foreach($this->ships as $ship) {
+            $allShipsAreSunk = $allShipsAreSunk && $this->isShipSunk($ship);
+        }
+
+        return $allShipsAreSunk;
     }
 
     /**
+     * @param Hole $hole
+     * @return int
      * @throws \Exception
      */
     public function shot(Hole $hole)
@@ -162,13 +186,35 @@ class Grid
             throw new \Exception('All ships must be placed before shooting');
         }
 
-        foreach($this->ships as $ship) {
+        $y = Hole::letterToNumber($hole->letter()) - 1;
+        $x = $hole->number() - 1;
+        $shipId = $this->grid[$y][$x];
+        if ($shipId !== 0) {
+            $this->grid[$y][$x] = -abs($this->grid[$y][$x]);
 
+            if ($this->isShipSunk($this->ships[$shipId])) {
+                return self::SUNK;
+            }
+
+            return self::HIT;
         }
+
+        return self::WATER;
     }
 
-    private function letterToNumber($letter)
+    private function isShipSunk($ship)
     {
-        return ord(strtoupper($letter)) - ord('A') + 1;
+        $size = $ship->size();
+
+        $count = 0;
+        foreach($this->grid as $y => $letter) {
+            foreach($letter as $x => $number) {
+                if ($this->grid[$y][$x] === -$ship->id()) {
+                    $count++;
+                }
+            }
+        }
+
+        return $count === $size;
     }
 }

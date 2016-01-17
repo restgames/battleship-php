@@ -20,12 +20,12 @@ class Position
         $this->position = $position;
     }
 
-    public static function VERTICAL()
+    public static function fromVertical()
     {
         return new self(self::VERTICAL);
     }
 
-    public static function HORIZONTAL()
+    public static function fromHorizontal()
     {
         return new self(self::HORIZONTAL);
     }
