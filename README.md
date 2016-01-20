@@ -1,7 +1,7 @@
 Battleship PHP libraries
 ========================
 
-[![Build Status](https://travis-ci.org/restgames/battleship-client.svg)](https://travis-ci.org/restgames/battleship-client)
+[![Build Status](https://travis-ci.org/restgames/battleship-php.svg)](https://travis-ci.org/restgames/battleship-php)
 
 A library that implements a Battleship Grid based in [Battleship Hasbro original game](http://www.hasbro.com/common/instruct/Battleship.PDF). You can place ships, shot at holes, and ask if the all ships are sunk.
 
