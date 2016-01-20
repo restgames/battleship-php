@@ -8,8 +8,6 @@ use Battleship\Ship\ShipFactory;
 class Grid
 {
     const NUMBER_OF_SHIPS = 5;
-    const NUMBER_OF_ROWS = 10;
-    const NUMBER_OF_COLUMNS = 10;
 
     const WATER = 0;
     const HIT = 1;
@@ -32,9 +30,9 @@ class Grid
     private function initGrid()
     {
         $this->grid = [];
-        for ($i = 0; $i < self::NUMBER_OF_ROWS; $i++) {
-            for ($j = 0; $j < self::NUMBER_OF_COLUMNS; $j++) {
-                $this->grid[$j][$i] = static::WATER;
+        foreach (static::letters() as $i => $letter) {
+            foreach (static::numbers() as $j => $number) {
+                $this->grid[$i][$j] = static::WATER;
             }
         }
     }
@@ -62,7 +60,7 @@ class Grid
      */
     public static function fromString($string)
     {
-        $letters = str_split($string, static::NUMBER_OF_ROWS);
+        $letters = str_split($string, count(static::numbers()));
 
         $grid = new self();
         foreach ($letters as $y => $letter) {
@@ -122,6 +120,10 @@ class Grid
             $x = Hole::letterToNumber($hole->letter()) + ($position->equals(Position::fromVertical()) ? $i : 0) - 1;
             $y = $hole->number() + ($position->equals(Position::fromHorizontal()) ? $i : 0) - 1;
 
+            if (!isset($grid->grid[$x][$y])) {
+                throw new \OutOfBoundsException('Ship does not fit into the grid with such a hole and position');
+            }
+
             if ($grid->grid[$x][$y] > 0) {
                 throw new \InvalidArgumentException('Ship overlaps with another one, please choose another space.');
             }
@@ -179,12 +181,12 @@ class Grid
     /**
      * @param Hole $hole
      * @return int
-     * @throws \Exception
+     * @throws AllShipsAreNotPlacedException
      */
     public function shot(Hole $hole)
     {
         if (!$this->areAllShipsPlaced()) {
-            throw new \Exception('All ships must be placed before shooting');
+            throw new AllShipsAreNotPlacedException('All ships must be placed before shooting');
         }
 
         $y = Hole::letterToNumber($hole->letter()) - 1;
