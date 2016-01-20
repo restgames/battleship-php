@@ -239,6 +239,22 @@ class GridTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function givenASunkShipWhenShootingAgainOnItThenSunkShouldBeReturned()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * @test
+     */
+    public function givenANonSunkShipWhenShootingAgainOnAHitThenHitShouldBeReturned()
+    {
+        $this->markTestIncomplete();
+    }
+
+    /**
+     * @test
+     */
     public function givenAValidGridStringWhenBuildingAndShootingAllTheHolesThenAllShipsMustBeSunk()
     {
         $this->grid = Grid::fromString(
