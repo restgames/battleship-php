@@ -229,6 +229,46 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @dataProvider invalidStringGridsDataProvider
+     * @expectedException \InvalidArgumentException
+     * @param $invalidGridString
+     */
+    public function givenANonValidGridStringWhenBuildingAGridFromItThenAnExceptionShouldBeThrown($invalidGridString)
+    {
+        $this->assertSame($invalidGridString, Grid::fromString($invalidGridString));
+    }
+
+    public function invalidStringGridsDataProvider()
+    {
+        return [
+            [null],
+            [''],
+            [str_repeat('0', 100)],
+            [str_repeat('1', 100)],
+            [
+                '444000'.
+                '222200'.
+                '111110'.
+                '550000'.
+                '333000'
+            ],
+            [
+                '4440000000'.
+                '2222000000'.
+                '1111100000'.
+                '5500000000'.
+                '3330000000'.
+                '0000000000'.
+                '0000000000'.
+                '0000000000'.
+                '0000000000'.
+                '000000000'
+            ]
+        ];
+    }
+
+    /**
+     * @test
      * @expectedException \Battleship\AllShipsAreNotPlacedException
      */
     public function givenAnEmptyGridWhenShootingAtAnyHoleThenAnExceptionShouldBeThrown()

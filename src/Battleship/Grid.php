@@ -90,11 +90,11 @@ class Grid
         }
 
         if (!$grid->areAllShipsPlaced()) {
-            throw new \Exception('Invalid format: All ships are not placed');
+            throw new \InvalidArgumentException('Invalid format: All ships are not placed');
         }
 
         if ($string !== $grid->render()) {
-            throw new \Exception('Invalid format');
+            throw new \InvalidArgumentException('Invalid format');
         }
 
         return $grid;
