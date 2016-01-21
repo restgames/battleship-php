@@ -7,19 +7,19 @@ class ShipFactory
     public static function build($id)
     {
         switch ($id) {
-            case 1:
+            case Carrier::ID:
                 return new Carrier();
                 break;
-            case 2:
+            case Battleship::ID:
                 return new Battleship();
                 break;
-            case 3:
+            case Cruiser::ID:
                 return new Cruiser();
                 break;
-            case 4:
+            case Submarine::ID:
                 return new Submarine();
                 break;
-            case 5:
+            case Destroyer::ID:
                 return new Destroyer();
                 break;
         }

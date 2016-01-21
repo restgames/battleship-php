@@ -195,7 +195,7 @@ class Grid
         if ($shipId !== 0) {
             $this->grid[$y][$x] = -abs($this->grid[$y][$x]);
 
-            if ($this->isShipSunk($this->ships[$shipId])) {
+            if ($this->isShipSunk($this->ships[abs($shipId)])) {
                 return self::SUNK;
             }
 

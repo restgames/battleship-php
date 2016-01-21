@@ -239,23 +239,56 @@ class GridTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function givenASunkShipWhenShootingAgainOnItThenSunkShouldBeReturned()
+    public function givenAHitShipWhenShootingAgainOnTheHitHoleThenHitShouldBeReturnedAgain()
     {
-        $this->markTestIncomplete();
+        $this->grid = Grid::fromString(
+            '0300222200'.
+            '0300000000'.
+            '0310000000'.
+            '0010005000'.
+            '0010005000'.
+            '0010044400'.
+            '0010000000'.
+            '0000000000'.
+            '0000000000'.
+            '0000000000'
+        );
+
+        $this->assertSame(Grid::HIT, $this->grid->shot(new Hole('A', 2)));
+        $this->assertSame(Grid::HIT, $this->grid->shot(new Hole('A', 2)));
     }
 
     /**
      * @test
      */
-    public function givenANonSunkShipWhenShootingAgainOnAHitThenHitShouldBeReturned()
+    public function givenASunkShipWhenShootingAgainOnTheShipThenSunkShouldBeReturnedAgain()
     {
-        $this->markTestIncomplete();
+        $this->grid = Grid::fromString(
+            '0300222200'.
+            '0300000000'.
+            '0310000000'.
+            '0010005000'.
+            '0010005000'.
+            '0010044400'.
+            '0010000000'.
+            '0000000000'.
+            '0000000000'.
+            '0000000000'
+        );
+
+        $this->assertSame(Grid::HIT, $this->grid->shot(new Hole('A', 2)));
+        $this->assertSame(Grid::HIT, $this->grid->shot(new Hole('B', 2)));
+        $this->assertSame(Grid::SUNK, $this->grid->shot(new Hole('C', 2)));
+
+        $this->assertSame(Grid::SUNK, $this->grid->shot(new Hole('A', 2)));
+        $this->assertSame(Grid::SUNK, $this->grid->shot(new Hole('B', 2)));
+        $this->assertSame(Grid::SUNK, $this->grid->shot(new Hole('C', 2)));
     }
 
     /**
      * @test
      */
-    public function givenAValidGridStringWhenBuildingAndShootingAllTheHolesThenAllShipsMustBeSunk()
+    public function givenAValidGridStringWhenBuildingAndShootingAllTheHolesThenAllShipsMustBeSunkAkaACompleteGame()
     {
         $this->grid = Grid::fromString(
             '0300222200'.
@@ -287,6 +320,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         foreach(Grid::letters() as $l => $letter) {
             foreach(Grid::numbers() as $n => $number) {
+                $this->assertSame(
+                    (int) $shotResults{$l * 10 + $n},
+                    $this->grid->shot(new Hole($letter, $number))
+                );
+
                 $this->assertSame(
                     (int) $shotResults{$l * 10 + $n},
                     $this->grid->shot(new Hole($letter, $number))

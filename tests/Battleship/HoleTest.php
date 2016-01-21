@@ -11,7 +11,7 @@ class HoleTest extends \PHPUnit_Framework_TestCase
      * @param $letter
      * @param $number
      */
-    public function whenNumberOrLetterOutOfBoundsAnExceptionIsThrown($letter, $number)
+    public function givenALetterOrANumberOutOfBoundsWhenCreatingAHoleThenAnExceptionIsThrown($letter, $number)
     {
         new Hole($letter, $number);
     }
@@ -36,7 +36,7 @@ class HoleTest extends \PHPUnit_Framework_TestCase
      * @param $letter
      * @param $number
      */
-    public function whenNumberOrLetterInOfBoundsAHoleIsBuilt($letter, $number)
+    public function givenALetterAndANumberInOfBoundsWhenCreatingAHoleThenHoleIsCreated($letter, $number)
     {
         $this->assertInstanceOf('\Battleship\Hole', new Hole($letter, $number));
     }
@@ -56,7 +56,7 @@ class HoleTest extends \PHPUnit_Framework_TestCase
      * @param $number
      * @param $expectedLetter
      */
-    public function numberToLetterConversion($number, $expectedLetter)
+    public function givenANumberWhenAskingForItsLetterThenLetterOfThisNumberOrderShouldBeReturned($number, $expectedLetter)
     {
         $this->assertSame($expectedLetter, Hole::numberToLetter($number));
     }
@@ -67,7 +67,7 @@ class HoleTest extends \PHPUnit_Framework_TestCase
      * @param $expectedNumber
      * @param $letter
      */
-    public function letterToNumberConversion($expectedNumber, $letter)
+    public function givenALetterWhenAskingForItsNumberThenNumberOfThisLetterOrderShouldBeReturned($expectedNumber, $letter)
     {
         $this->assertSame($expectedNumber, Hole::letterToNumber($letter));
     }

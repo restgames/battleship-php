@@ -8,9 +8,8 @@ class PositionTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider samePositionsDataProvider
      */
-    public function whenPositionsHaveSameValueShouldBeEqual($aPosition, $otherPosition)
+    public function givenTwoPositionsWithSameValueWhenComparingEqualityThenMustBeTrue($aPosition, $otherPosition)
     {
-        $this->assertNotSame($aPosition, $otherPosition);
         $this->assertTrue($aPosition->equals($otherPosition));
     }
 
