@@ -16,7 +16,7 @@ class Hole
 
     /**
      * @param string $letter
-     * @param int $number
+     * @param int    $number
      */
     public function __construct($letter, $number)
     {

@@ -55,7 +55,9 @@ class Grid
 
     /**
      * @param string $string
+     *
      * @return Grid
+     *
      * @throws \Exception
      */
     public static function fromString($string)
@@ -83,8 +85,7 @@ class Grid
                         ),
                         $direction
                     );
-                } catch(\Exception $e) {
-
+                } catch (\Exception $e) {
                 }
             }
         }
@@ -101,10 +102,12 @@ class Grid
     }
 
     /**
-     * @param Ship $ship
-     * @param Hole $hole
+     * @param Ship     $ship
+     * @param Hole     $hole
      * @param Position $position
+     *
      * @return Grid
+     *
      * @throws ShipAlreadyPlacedException
      */
     public function placeShip(Ship $ship, Hole $hole, Position $position)
@@ -116,7 +119,7 @@ class Grid
             throw new ShipAlreadyPlacedException();
         }
 
-        for ($i = 0; $i < $ship->size(); $i++) {
+        for ($i = 0; $i < $ship->size(); ++$i) {
             $x = Hole::letterToNumber($hole->letter()) + ($position->equals(Position::fromVertical()) ? $i : 0) - 1;
             $y = $hole->number() + ($position->equals(Position::fromHorizontal()) ? $i : 0) - 1;
 
@@ -155,7 +158,7 @@ class Grid
     public function areAllShipsSunk()
     {
         $allShipsAreSunk = true;
-        foreach($this->ships as $ship) {
+        foreach ($this->ships as $ship) {
             $allShipsAreSunk = $allShipsAreSunk && $this->isShipSunk($ship);
         }
 
@@ -167,10 +170,10 @@ class Grid
         $size = $ship->size();
 
         $count = 0;
-        foreach($this->grid as $y => $letter) {
-            foreach($letter as $x => $number) {
+        foreach ($this->grid as $y => $letter) {
+            foreach ($letter as $x => $number) {
                 if ($this->grid[$y][$x] === -$ship->id()) {
-                    $count++;
+                    ++$count;
                 }
             }
         }
@@ -180,7 +183,9 @@ class Grid
 
     /**
      * @param Hole $hole
+     *
      * @return int
+     *
      * @throws AllShipsAreNotPlacedException
      */
     public function shot(Hole $hole)
@@ -211,8 +216,8 @@ class Grid
     public function render()
     {
         $out = '';
-        for ($letter = 0; $letter < count($this->grid); $letter++) {
-            for ($number = 0; $number < count($this->grid[$letter]); $number++) {
+        for ($letter = 0; $letter < count($this->grid); ++$letter) {
+            for ($number = 0; $number < count($this->grid[$letter]); ++$number) {
                 $out .= $this->grid[$letter][$number];
             }
         }
