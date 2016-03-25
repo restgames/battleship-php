@@ -12,7 +12,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "": "src"
+            "Battleship\\": "src/Battleship"
         }
     },
     "require-dev": {
@@ -20,7 +20,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "": "tests"
+            "Battleship\\": "tests/Battleship"
         }
+    },
+    "scripts": {
+        "tests": "vendor/bin/phpunit",
+        "bdd": "vendor/bin/phpunit --testdox"
     }
 }
