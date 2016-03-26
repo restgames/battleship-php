@@ -8,6 +8,7 @@ class HoleTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \InvalidArgumentException
      * @dataProvider invalidPairsOfNumbersAndLettersDataProvider
+     *
      * @param $letter
      * @param $number
      */
@@ -33,6 +34,7 @@ class HoleTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider validPairsOfNumbersAndLettersDataProvider
+     *
      * @param $letter
      * @param $number
      */
@@ -43,8 +45,8 @@ class HoleTest extends \PHPUnit_Framework_TestCase
 
     public function validPairsOfNumbersAndLettersDataProvider()
     {
-        foreach(range(1, 10) as $number) {
-            foreach(range('A', 'J') as $letter) {
+        foreach (range(1, 10) as $number) {
+            foreach (range('A', 'J') as $letter) {
                 yield [$letter, $number];
             }
         }
@@ -53,6 +55,7 @@ class HoleTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider numberToLetterDataProvider
+     *
      * @param $number
      * @param $expectedLetter
      */
@@ -64,6 +67,7 @@ class HoleTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider numberToLetterDataProvider
+     *
      * @param $expectedNumber
      * @param $letter
      */
@@ -82,7 +86,7 @@ class HoleTest extends \PHPUnit_Framework_TestCase
             [5, 'E'],
             [6, 'F'],
             [7, 'G'],
-            [8, 'H']
+            [8, 'H'],
         ];
     }
 }

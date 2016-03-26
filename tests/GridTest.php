@@ -71,6 +71,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider shipsOutOfBoundsDataProvider
      * @expectedException \OutOfBoundsException
+     *
      * @param $hole
      * @param $ship
      * @param $position
@@ -137,8 +138,9 @@ class GridTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider gridsAndTheirRenderingDataProvider
+     *
      * @param string $expectedRender
-     * @param Grid $grid
+     * @param Grid   $grid
      */
     public function givenAnEmptyGridWhenPlacingAllShipsThenRenderMustMathString($expectedRender, $grid)
     {
@@ -159,12 +161,12 @@ class GridTest extends \PHPUnit_Framework_TestCase
                 '0000000000'.
                 '0000000000'.
                 '0000000000',
-                (new Grid)
+                (new Grid())
                     ->placeShip(new Carrier(), new Hole('A', 1), Position::fromHorizontal())
                     ->placeShip(new Battleship(), new Hole('B', 1), Position::fromHorizontal())
                     ->placeShip(new Cruiser(), new Hole('C', 1), Position::fromHorizontal())
                     ->placeShip(new Submarine(), new Hole('D', 1), Position::fromHorizontal())
-                    ->placeShip(new Destroyer(), new Hole('E', 1), Position::fromHorizontal())
+                    ->placeShip(new Destroyer(), new Hole('E', 1), Position::fromHorizontal()),
             ],
             [
                 '4000000002'.
@@ -177,12 +179,12 @@ class GridTest extends \PHPUnit_Framework_TestCase
                 '3000000005'.
                 '3000000005'.
                 '3000011111',
-                (new Grid)
+                (new Grid())
                     ->placeShip(new Carrier(), new Hole('J', 6), Position::fromHorizontal())
                     ->placeShip(new Battleship(), new Hole('A', 10), Position::fromVertical())
                     ->placeShip(new Cruiser(), new Hole('H', 1), Position::fromVertical())
                     ->placeShip(new Submarine(), new Hole('A', 1), Position::fromVertical())
-                    ->placeShip(new Destroyer(), new Hole('H', 10), Position::fromVertical())
+                    ->placeShip(new Destroyer(), new Hole('H', 10), Position::fromVertical()),
             ],
         ];
     }
@@ -190,6 +192,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @dataProvider validStringGridsDataProvider
+     *
      * @param $validGridString
      */
     public function givenAValidGridStringWhenBuildingAGridFromItThenGridShouldBeValid($validGridString)
@@ -210,7 +213,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
                 '0000000000'.
                 '0000000000'.
                 '0000000000'.
-                '0000000000'
+                '0000000000',
             ],
             [
                 '0300222200'.
@@ -222,7 +225,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
                 '0010000000'.
                 '0000000000'.
                 '0000000000'.
-                '0000000000'
+                '0000000000',
             ],
         ];
     }
@@ -231,6 +234,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
      * @test
      * @dataProvider invalidStringGridsDataProvider
      * @expectedException \InvalidArgumentException
+     *
      * @param $invalidGridString
      */
     public function givenANonValidGridStringWhenBuildingAGridFromItThenAnExceptionShouldBeThrown($invalidGridString)
@@ -250,7 +254,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
                 '222200'.
                 '111110'.
                 '550000'.
-                '333000'
+                '333000',
             ],
             [
                 '4440000000'.
@@ -262,8 +266,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
                 '0000000000'.
                 '0000000000'.
                 '0000000000'.
-                '000000000'
-            ]
+                '000000000',
+            ],
         ];
     }
 
@@ -358,8 +362,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->grid->areAllShipsPlaced());
         $this->assertFalse($this->grid->areAllShipsSunk());
 
-        foreach(Grid::letters() as $l => $letter) {
-            foreach(Grid::numbers() as $n => $number) {
+        foreach (Grid::letters() as $l => $letter) {
+            foreach (Grid::numbers() as $n => $number) {
                 $this->assertSame(
                     (int) $shotResults{$l * 10 + $n},
                     $this->grid->shot(new Hole($letter, $number))

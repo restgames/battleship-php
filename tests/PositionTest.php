@@ -17,7 +17,7 @@ class PositionTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [Position::fromHorizontal(), Position::fromHorizontal()],
-            [Position::fromVertical(), Position::fromVertical()]
+            [Position::fromVertical(), Position::fromVertical()],
         ];
     }
 }
