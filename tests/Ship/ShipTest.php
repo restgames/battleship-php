@@ -20,7 +20,7 @@ class ShipTest extends \PHPUnit_Framework_TestCase
             [new Destroyer(), Destroyer::SIZE],
             [new Carrier(), Carrier::SIZE],
             [new Battleship(), Battleship::SIZE],
-            [new Cruiser(), Cruiser::SIZE]
+            [new Cruiser(), Cruiser::SIZE],
         ];
     }
 }

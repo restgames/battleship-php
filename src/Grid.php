@@ -56,9 +56,9 @@ class Grid
     /**
      * @param string $string
      *
-     * @return Grid
-     *
      * @throws \Exception
+     *
+     * @return Grid
      */
     public static function fromString($string)
     {
@@ -106,9 +106,9 @@ class Grid
      * @param Hole     $hole
      * @param Position $position
      *
-     * @return Grid
-     *
      * @throws ShipAlreadyPlacedException
+     *
+     * @return Grid
      */
     public function placeShip(Ship $ship, Hole $hole, Position $position)
     {
@@ -184,9 +184,9 @@ class Grid
     /**
      * @param Hole $hole
      *
-     * @return int
-     *
      * @throws AllShipsAreNotPlacedException
+     *
+     * @return int
      */
     public function shot(Hole $hole)
     {
